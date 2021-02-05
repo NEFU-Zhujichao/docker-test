@@ -12,7 +12,7 @@ public class HelloController {
 
     @GetMapping("hello")
     public Map hello(){
-        return Map.of("chao","Hello Docker");
+        return Map.of("message","Hello Docker");
     }
 
 }

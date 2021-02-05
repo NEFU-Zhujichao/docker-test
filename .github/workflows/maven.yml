@@ -17,6 +17,7 @@ jobs:
         java-version: 11
     - name: Build with Maven
       run: mvn -B package --file pom.xml
+      # run: mvn package -DskipTests 生产环境时不进行测试的构建。
     - name: docker push
       run: |
         ${{ secrets.HUAWEI_DOCKERLOGIN }}
