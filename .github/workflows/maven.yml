@@ -22,21 +22,21 @@ jobs:
         ${{ secrets.HUAWEI_DOCKERLOGIN }}
         docker build . -t ${{ secrets.HUAWEI_DOCKERREPOSITORY }}
         docker push ${{ secrets.HUAWEI_DOCKERREPOSITORY }}
-#  deploy:
-#    needs: [ build ]
-#    runs-on: ubuntu-latest
-#    steps:
-#      - name: deploy
-#        uses: appleboy/ssh-action@master
-#        with:
-#          host: ${{ secrets.HUAWEI_HOST }}
-#          username: ${{secrets.HUAWEI_USERNAME}}
-#          password: ${{secrets.HUAWEI_PASSWORD}}
-#          script: |
-#            ${{ secrets.HUAWEI_DOCKERLOGIN }}
-#            docker stop $(docker ps --filter ancestor=${{ secrets.HUAWEI_DOCKERREPOSITORY }} -q)
-#            docker rm -v $(docker ps --filter ancestor=${{ secrets.HUAWEI_DOCKERREPOSITORY }} -q)
-#            docker rmi -f $(docker images ${{ secrets.HUAWEI_DOCKERREPOSITORY }} -q)
-#            docker pull ${{ secrets.HUAWEI_DOCKERREPOSITORY }}
-#            docker run -p 8080:8080 -d ${{ secrets.HUAWEI_DOCKERREPOSITORY }}
+  deploy:
+    needs: [ build ]
+    runs-on: ubuntu-latest
+    steps:
+      - name: deploy
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HUAWEI_HOST }}
+          username: ${{secrets.HUAWEI_USERNAME}}
+          password: ${{secrets.HUAWEI_PASSWORD}}
+          script: |
+            ${{ secrets.HUAWEI_DOCKERLOGIN }}
+            docker stop $(docker ps --filter ancestor=${{ secrets.HUAWEI_DOCKERREPOSITORY }} -q)
+            docker rm -v $(docker ps --filter ancestor=${{ secrets.HUAWEI_DOCKERREPOSITORY }} -q)
+            docker rmi -f $(docker images ${{ secrets.HUAWEI_DOCKERREPOSITORY }} -q)
+            docker pull ${{ secrets.HUAWEI_DOCKERREPOSITORY }}
+            docker run -p 8080:8080 -d ${{ secrets.HUAWEI_DOCKERREPOSITORY }}
 
